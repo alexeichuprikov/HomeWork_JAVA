@@ -18,45 +18,52 @@ public class TwoTest {
     protected static WebDriver driver;
     private Logger logger = LogManager.getLogger(TwoTest.class);
 
-    // Читаем передаваемый параметр browser (-Dbrowser)
    String env = System.getProperty("browser", "chrome");
 
-    // Метод setUP
     @BeforeEach
     public void setUp() {
         logger.info("env = " + env);
         driver = WebDriverFactory.getDriver(env.toLowerCase());
         logger.info("Драйвер стартовал!");
     }
+
     @Test
     public void openPage1() {
-        //Ожидание загрузки
         driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
 
-        //открытие страницы
         driver.get("https://www.dns-shop.ru/");
-
-        //загрузка в полноэкранном режиме
-        driver.manage().window().fullscreen();
         logger.info("Открыта страница DNS - " + "https://www.dns-shop.ru/");
+        driver.manage().window().fullscreen();
 
-        // Вывод заголовка страницы
         String title = driver.getTitle();
         logger.info("title - " + title);
 
-        // Вывод текущего URL
         String currentUrl = driver.getCurrentUrl();
         logger.info("current URL - " + currentUrl);
 
-        // Нажатие кнопки да
         WebElement link2 = driver.findElement(By.xpath("//a[contains(text(), \"Да\")]"));
         link2.click();
         logger.info("Нажата кнопка \"Да\"");
 
-        // Найти элемент по тексту ссылки
         WebElement link1 = driver.findElement(By.xpath("//a[contains(text(), \"Бытовая техника\")]"));
         link1.click();
         logger.info("Нажата ссылка \"Бытовая техника\"");
+
+        WebElement link3 = driver.findElement(By.xpath(".//input[@id='Техника для кухни']"));
+        logger.info("WebElement:" + link3.getAttribute("id"));
+
+        WebElement link4 = driver.findElement(By.xpath(".//input[@id='Техника для дома']"));
+        logger.info("WebElement:" + link4.getAttribute("id"));
+
+        WebElement link5 = driver.findElement(By.xpath(".//input[@id='Красота и здоровье']"));
+        logger.info("WebElement:" + link5.getAttribute("id"));
+
+        // Задержка sleep
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Вывод логов браузера
         logger.info("Логи браузера");
@@ -67,12 +74,6 @@ public class TwoTest {
         }
         logger.info("--------------------------------------");
 
-        // Задержка sleep, чтобы увидеть результат
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         // Создание куки Cookie 1 и вывод информации по нему
         logger.info("Куки, которое добавили мы");
         driver.manage().addCookie(new Cookie("Cookie 1", "This Is Cookie 1"));
@@ -96,7 +97,7 @@ public class TwoTest {
             logger.info("--------------------------------------");
         }
     }
-    // Метод setDown
+
     @AfterEach
     public void setDown() {
         if(driver != null) {
