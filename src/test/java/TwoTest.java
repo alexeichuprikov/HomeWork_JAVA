@@ -18,12 +18,13 @@ public class TwoTest {
     protected static WebDriver driver;
     private Logger logger = LogManager.getLogger(TwoTest.class);
 
-   String env = System.getProperty("browser", "chrome");
+    String browserName = System.getProperty("browser", "chrome");
+    String PageLoadStrategyName = System.getProperty("option", "None");
 
     @BeforeEach
     public void setUp() {
-        logger.info("env = " + env);
-        driver = WebDriverFactory.getDriver(env.toLowerCase());
+        logger.info("browserName = " + browserName);
+        driver = WebDriverFactory.getDriver(browserName.toLowerCase(), PageLoadStrategyName.toLowerCase());
         logger.info("Драйвер стартовал!");
     }
 
