@@ -21,30 +21,39 @@ public class WebDriverFactory {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions setchrome = new ChromeOptions();
                 setchrome.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
-                setchrome.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
+                setchrome.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, false);
                 setchrome.addArguments("--incognito");
                 setchrome.addArguments("--start-fullscreen");
-                    switch (PageLoadStrategyName) {
-                        case "normal":
-                            setchrome.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-                            break;
-                        case "none":
-                            setchrome.setPageLoadStrategy(PageLoadStrategy.NONE);
-                            break;
-                        case "eager":
-                            setchrome.setPageLoadStrategy(PageLoadStrategy.EAGER);
-                            break;
-                    }
+                switch (PageLoadStrategyName) {
+                    case "normal":
+                        setchrome.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                        break;
+                    case "none":
+                        setchrome.setPageLoadStrategy(PageLoadStrategy.NONE);
+                        break;
+                    case "eager":
+                        setchrome.setPageLoadStrategy(PageLoadStrategy.EAGER);
+                        break;
+                }
                 logger.info("Драйвер для браузера Google Chrome");
                 return new ChromeDriver(setchrome);
             case "firefox" :
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions setfirefox = new FirefoxOptions();
-                setfirefox.setPageLoadStrategy(PageLoadStrategy.NORMAL);
                 setfirefox.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
-                setfirefox.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
+                setfirefox.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, false);
                 setfirefox.addArguments("--private");
-
+                switch (PageLoadStrategyName) {
+                    case "normal":
+                        setfirefox.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                        break;
+                    case "none":
+                        setfirefox.setPageLoadStrategy(PageLoadStrategy.NONE);
+                        break;
+                    case "eager":
+                        setfirefox.setPageLoadStrategy(PageLoadStrategy.EAGER);
+                        break;
+                }
                 logger.info("Драйвер для браузера Mozilla Firefox");
                 return new FirefoxDriver(setfirefox);
 
