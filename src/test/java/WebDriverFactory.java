@@ -10,7 +10,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.CapabilityType;
 
-
 public class WebDriverFactory {
     private static Logger logger = LogManager.getLogger(WebDriverFactory.class);
 
@@ -21,7 +20,6 @@ public class WebDriverFactory {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions setchrome = new ChromeOptions();
                 setchrome.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
-                setchrome.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, false);
                 setchrome.addArguments("--incognito");
                 setchrome.addArguments("--start-fullscreen");
                 switch (PageLoadStrategyName) {
@@ -34,6 +32,10 @@ public class WebDriverFactory {
                     case "eager":
                         setchrome.setPageLoadStrategy(PageLoadStrategy.EAGER);
                         break;
+                    default:
+                        setchrome.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                        logger.info("Стратегии загрузки страницы по умолчанию");
+                        break;
                 }
                 logger.info("Драйвер для браузера Google Chrome");
                 return new ChromeDriver(setchrome);
@@ -41,8 +43,8 @@ public class WebDriverFactory {
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions setfirefox = new FirefoxOptions();
                 setfirefox.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.DISMISS);
-                setfirefox.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, false);
                 setfirefox.addArguments("--private");
+                setfirefox.addArguments("-kiosk");
                 switch (PageLoadStrategyName) {
                     case "normal":
                         setfirefox.setPageLoadStrategy(PageLoadStrategy.NORMAL);
@@ -52,6 +54,10 @@ public class WebDriverFactory {
                         break;
                     case "eager":
                         setfirefox.setPageLoadStrategy(PageLoadStrategy.EAGER);
+                        break;
+                    default:
+                        setfirefox.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+                        logger.info("Стратегии загрузки страницы по умолчанию");
                         break;
                 }
                 logger.info("Драйвер для браузера Mozilla Firefox");
